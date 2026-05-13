@@ -14,11 +14,13 @@ include '../includes/db.php';
 $descricao = $_POST['descricao'] ?? '';
 $latitude = $_POST['latitude'] ?? '';
 $longitude = $_POST['longitude'] ?? '';
+$endereco = $_POST['endereco'] ?? '';
 
 // Proteção básica contra injeção de SQL (limpa as strings recebidas)
 $descricao = $conn->real_escape_string($descricao);
 $latitude = $conn->real_escape_string($latitude);
 $longitude = $conn->real_escape_string($longitude);
+$endereco = $conn->real_escape_string($endereco);
 
 // Geração de um protocolo único para acompanhamento
 // Formato: DEN-Ano-NumeroAleatorio (Ex: DEN-2023-4589)
@@ -50,6 +52,7 @@ $sql = "INSERT INTO denuncias (
             imagem,
             latitude,
             longitude,
+            endereco,
             status
         )
         VALUES (
@@ -58,48 +61,20 @@ $sql = "INSERT INTO denuncias (
             '$imagemNome',
             '$latitude',
             '$longitude',
+            '$endereco',
             'Recebida'
         )";
 
 // Executa a query e verifica se o resultado foi um sucesso (TRUE)
 if($conn->query($sql) === TRUE){
-    // Inclui o cabeçalho global
-    include '../includes/header.php';
-    
-    // Se inserido com sucesso, exibe a tela de confirmação para o usuário
-    echo "
-    <div class='container' style='text-align: center; max-width: 500px;'>
-        <div style='font-size: 60px; color: var(--primary-color); margin-bottom: 10px;'>✅</div>
-        <h1>Denúncia Registrada!</h1>
-        <p>Agradecemos a sua colaboração. Sua denúncia foi encaminhada para a nossa equipe de fiscalização ambiental.</p>
-        
-        <div style='background: var(--secondary-color); padding: 20px; border-radius: 8px; margin: 20px 0;'>
-            <p style='margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light);'>Seu número de protocolo:</p>
-            <h2 style='font-size: 28px; margin: 0; color: var(--primary-color);'>$protocolo</h2>
-        </div>
-        
-        <p style='font-size: 14px; color: #666;'>Guarde este número para consultar o andamento posteriormente.</p>
-        
-        <br>
-        <a href='../status.php?protocolo=$protocolo' class='botao'>Acompanhar Status Agora</a>
-        <a href='../index.php' style='display: block; margin-top: 15px; color: var(--text-light); text-decoration: none;'>Voltar à página inicial</a>
-    </div>
-    ";
-    
-    // Inclui o rodapé global
-    include '../includes/footer.php';
-
+    // Redireciona para a página de sucesso (Padrão PRG)
+    header("Location: ../sucesso.php?protocolo=$protocolo");
+    exit;
 } else {
-    // Caso ocorra um erro na inserção (Ex: erro no banco), exibe a mensagem
-    include '../includes/header.php';
-    echo "
-    <div class='container'>
-        <h1 style='color: #D32F2F;'>Erro ao Registrar</h1>
-        <p>Infelizmente, ocorreu um erro interno: " . $conn->error . "</p>
-        <a href='../denuncia.php' class='botao'>Tentar Novamente</a>
-    </div>
-    ";
-    include '../includes/footer.php';
+    // Redireciona enviando o erro pela URL
+    $erro = urlencode($conn->error);
+    header("Location: ../sucesso.php?erro=$erro");
+    exit;
 }
 
 // Encerra a conexão com o banco

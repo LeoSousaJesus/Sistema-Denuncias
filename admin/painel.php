@@ -16,14 +16,33 @@ if(!isset($_SESSION['admin'])){
     exit;
 }
 
-// Verifica se uma requisição POST de atualização de status foi feita
-if(isset($_POST['id'])){
-    // Evita injeção de SQL usando cast para inteiro no ID
+// Processa as requisições de atualização ou exclusão
+if(isset($_POST['action']) && isset($_POST['id'])){
     $id = intval($_POST['id']);
-    // Limpa a string de status recebida
+    
+    if($_POST['action'] === 'update') {
+        $status = $conn->real_escape_string($_POST['status']);
+        $sqlUpdate = "UPDATE denuncias SET status = '$status' WHERE id = $id";
+        $conn->query($sqlUpdate);
+    } 
+    elseif($_POST['action'] === 'delete') {
+        // Primeiro, busca a imagem para apagar do disco se existir
+        $sqlImg = "SELECT imagem FROM denuncias WHERE id = $id";
+        $resImg = $conn->query($sqlImg);
+        if($resImg && $resImg->num_rows > 0) {
+            $imgDados = $resImg->fetch_assoc();
+            if(!empty($imgDados['imagem']) && file_exists("../uploads/".$imgDados['imagem'])) {
+                unlink("../uploads/".$imgDados['imagem']);
+            }
+        }
+        // Exclui a denúncia do banco
+        $sqlDelete = "DELETE FROM denuncias WHERE id = $id";
+        $conn->query($sqlDelete);
+    }
+} elseif (isset($_POST['id']) && isset($_POST['status'])) {
+    // Retrocompatibilidade (caso action não seja enviado)
+    $id = intval($_POST['id']);
     $status = $conn->real_escape_string($_POST['status']);
-
-    // Prepara e executa a query de atualização do status
     $sqlUpdate = "UPDATE denuncias SET status = '$status' WHERE id = $id";
     $conn->query($sqlUpdate);
 }
@@ -58,6 +77,8 @@ $resultado = $conn->query($sql);
         .badge.analise { background: #E1F5FE; color: #0288D1; }
         .badge.enviada { background: #E8F5E9; color: #388E3C; }
         .badge.resolvida { background: #C8E6C9; color: #2E7D32; }
+        .btn-delete { background: #e53935; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: 500; transition: 0.3s; width: 100%; text-align: center; }
+        .btn-delete:hover { background: #c62828; }
     </style>
 </head>
 <body style="background-color: var(--secondary-color);">
@@ -111,6 +132,9 @@ $resultado = $conn->query($sql);
                     
                     // Coluna 4: Link para o Google Maps utilizando Latitude e Longitude
                     echo "<td>";
+                    if(!empty($dados['endereco'])) {
+                        echo "<div style='margin-bottom: 5px; font-size: 13px; max-width: 250px; line-height: 1.4;'>".htmlspecialchars($dados['endereco'])."</div>";
+                    }
                     if(!empty($dados['latitude']) && !empty($dados['longitude'])) {
                         echo "<a href='https://www.google.com/maps?q={$dados['latitude']},{$dados['longitude']}' target='_blank' style='color: var(--primary-color); font-weight: 500; text-decoration: none;'>Abrir Mapa 📍</a>";
                     } else {
@@ -120,14 +144,17 @@ $resultado = $conn->query($sql);
                     
                     // Coluna 5: Formulário para gerenciar o Status da denúncia
                     echo "<td>";
-                    echo "<form method='POST' style='display: flex; gap: 8px; align-items: center;'>";
+                    echo "<div style='display: flex; flex-direction: column; gap: 8px;'>";
+                    
+                    // Form de Atualização
+                    echo "<form method='POST' style='display: flex; gap: 8px; align-items: center; margin: 0;'>";
+                    echo "<input type='hidden' name='action' value='update'>";
                     echo "<input type='hidden' name='id' value='{$dados['id']}'>";
-                    echo "<select name='status'>";
+                    echo "<select name='status' style='margin: 0;'>";
                     
                     // Lista das opções de fluxo de status possíveis
                     $opcoes_status = ['Recebida', 'Em análise', 'Fiscalização enviada', 'Resolvida', 'Descartada'];
                     foreach ($opcoes_status as $opcao) {
-                        // Verifica o status atual para deixar selecionado (selected) no menu
                         $selected = ($dados['status'] == $opcao) ? "selected" : "";
                         echo "<option value='$opcao' $selected>$opcao</option>";
                     }
@@ -135,6 +162,15 @@ $resultado = $conn->query($sql);
                     echo "</select>";
                     echo "<button type='submit' class='btn-update'>Atualizar</button>";
                     echo "</form>";
+                    
+                    // Form de Exclusão
+                    echo "<form method='POST' style='margin: 0; width: 100%;' onsubmit='return confirm(\"Tem certeza que deseja excluir esta denúncia definitivamente? A imagem também será apagada.\");'>";
+                    echo "<input type='hidden' name='action' value='delete'>";
+                    echo "<input type='hidden' name='id' value='{$dados['id']}'>";
+                    echo "<button type='submit' class='btn-delete'>Excluir Registro</button>";
+                    echo "</form>";
+                    
+                    echo "</div>";
                     echo "</td>";
                     
                     echo "</tr>";

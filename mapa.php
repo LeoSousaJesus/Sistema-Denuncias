@@ -26,8 +26,9 @@ $resultado = $conn->query($sql);
 
 </div>
 
-<!-- Inclusão do JavaScript do Leaflet (Biblioteca de Mapas Open Source) -->
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<!-- Inclusão do CSS e JS do Leaflet (Biblioteca de Mapas Open Source) -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 <script>
 // Inicializa o mapa focado nas coordenadas padrão (Ex: Brasília/DF)
@@ -50,6 +51,7 @@ if ($resultado && $resultado->num_rows > 0) {
             // Tratamento de segurança para não quebrar o script JS com aspas soltas na descrição
             $statusSafe = htmlspecialchars($dados['status'], ENT_QUOTES);
             $protocoloSafe = htmlspecialchars($dados['protocolo'], ENT_QUOTES);
+            $enderecoSafe = !empty($dados['endereco']) ? htmlspecialchars($dados['endereco'], ENT_QUOTES) : 'Endereço não registrado';
             
             // Imprime o código JS para criar o marcador
             echo "
@@ -58,7 +60,8 @@ if ($resultado && $resultado->num_rows > 0) {
              .bindPopup(`
                 <div style='text-align:center;'>
                     <b style='color: #2E7D32;'>{$protocoloSafe}</b><br>
-                    <span style='color: #666; font-size: 12px;'>Status: {$statusSafe}</span>
+                    <span style='color: #666; font-size: 12px; display: block; margin: 5px 0;'>{$enderecoSafe}</span>
+                    <span style='color: #333; font-size: 12px; font-weight: 500;'>Status: {$statusSafe}</span>
                 </div>
              `);
             ";
@@ -66,6 +69,33 @@ if ($resultado && $resultado->num_rows > 0) {
     }
 }
 ?>
+
+// Lógica para registrar um endereço pelo mapa (Click event)
+var markerTemp; // Variável para guardar o marcador temporário
+
+map.on('click', function(e) {
+    var lat = e.latlng.lat;
+    var lng = e.latlng.lng;
+    
+    // Se já existe um marcador temporário, remove ele
+    if (markerTemp) {
+        map.removeLayer(markerTemp);
+    }
+    
+    // Cria um novo marcador temporário onde o usuário clicou
+    markerTemp = L.marker([lat, lng]).addTo(map);
+    
+    // Mostra um popup perguntando se ele quer registrar aqui
+    markerTemp.bindPopup(`
+        <div style='text-align:center; padding: 5px;'>
+            <p style='margin: 0 0 10px 0; font-weight: 600;'>Localização Selecionada</p>
+            <a href='denuncia.php?lat=${lat}&lng=${lng}' class='botao' style='padding: 8px 12px; font-size: 13px; margin: 0;'>
+                Registrar Denúncia Aqui
+            </a>
+        </div>
+    `).openPopup();
+});
+
 </script>
 
 <?php include 'includes/footer.php'; ?>

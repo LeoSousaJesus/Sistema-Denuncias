@@ -74,6 +74,10 @@ include 'includes/header.php';
                     </div>
 
                     <div style='background: var(--white); padding: 15px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);'>
+                        <p style='margin: 0 0 5px 0; font-size: 14px; color: var(--text-light); font-weight: 600;'>Local registrado:</p>
+                        <p style='margin: 0 0 15px 0; font-size: 15px; line-height: 1.5; color: var(--primary-color);'>
+                            " . (!empty($dados['endereco']) ? htmlspecialchars($dados['endereco']) : 'Endereço não disponível (Apenas coordenadas)') . "
+                        </p>
                         <p style='margin: 0 0 5px 0; font-size: 14px; color: var(--text-light); font-weight: 600;'>Descrição registrada:</p>
                         <p style='margin: 0; font-size: 15px; line-height: 1.5;'>" . nl2br(htmlspecialchars($dados['descricao'])) . "</p>
                     </div>
