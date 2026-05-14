@@ -1,0 +1,287 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap');
+.block-title { font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--color-text-tertiary); margin:0 0 10px; }
+.screen { background:#F4F1EA; border:0.5px solid var(--color-border-secondary); border-radius:12px; overflow:hidden; }
+/* Admin layout */
+.admin-layout { display:flex; height:100%; }
+.sidebar { width:180px; background:#1B5E20; flex-shrink:0; padding:0; }
+.sb-brand { padding:16px 16px 12px; border-bottom:0.5px solid rgba(255,255,255,.12); }
+.sb-logo { font-family:'DM Serif Display',serif; font-size:15px; color:#fff; }
+.sb-role { font-size:10px; color:#81C784; margin-top:2px; }
+.sb-nav { padding:10px 0; }
+.sb-item { padding:9px 16px; font-size:12px; color:rgba(255,255,255,.7); display:flex; align-items:center; gap:8px; cursor:pointer; }
+.sb-item.active { background:rgba(255,255,255,.15); color:#fff; border-right:3px solid #81C784; }
+.sb-item i { font-size:15px; }
+.admin-main { flex:1; min-width:0; overflow:hidden; }
+.admin-topbar { background:#fff; padding:0 20px; height:50px; display:flex; align-items:center; justify-content:space-between; border-bottom:0.5px solid #E0E0E0; }
+.page-title { font-size:15px; font-weight:600; color:#1C1C1C; }
+.admin-body { padding:16px 20px; overflow:hidden; }
+/* Metric cards */
+.metrics { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:0 0 16px; }
+.metric { background:#fff; border:0.5px solid #E0E0E0; border-radius:10px; padding:12px; }
+.metric-num { font-family:'DM Serif Display',serif; font-size:22px; color:#1B5E20; }
+.metric-label { font-size:11px; color:#757575; margin-top:2px; }
+.metric-delta { font-size:11px; margin-top:3px; }
+/* Charts row */
+.charts-row { display:grid; grid-template-columns:1.6fr 1fr; gap:10px; margin:0 0 16px; }
+.chart-card { background:#fff; border:0.5px solid #E0E0E0; border-radius:10px; padding:14px; }
+.chart-title { font-size:12px; font-weight:600; color:#1C1C1C; margin:0 0 10px; }
+.bar-chart { display:flex; align-items:flex-end; gap:6px; height:80px; }
+.bar-wrap { display:flex; flex-direction:column; align-items:center; gap:3px; flex:1; }
+.bar { border-radius:4px 4px 0 0; width:100%; transition:opacity .2s; }
+.bar-lbl { font-size:9px; color:#9E9E9E; }
+/* Donut placeholder */
+.donut-area { display:flex; gap:12px; align-items:center; }
+.donut-visual { width:72px; height:72px; border-radius:50%; background:conic-gradient(#C62828 0% 12%, #F9A825 12% 28%, #1565C0 28% 55%, #2E7D32 55% 100%); flex-shrink:0; position:relative; }
+.donut-inner { position:absolute; inset:12px; border-radius:50%; background:#fff; }
+.donut-legend { flex:1; }
+.dl-item { display:flex; align-items:center; gap:6px; margin:0 0 4px; font-size:10px; color:#4A4A4A; }
+.dl-dot { width:8px; height:8px; border-radius:2px; flex-shrink:0; }
+/* Table */
+.table-wrap { background:#fff; border:0.5px solid #E0E0E0; border-radius:10px; overflow:hidden; }
+.table-head { display:grid; grid-template-columns:80px 1fr 120px 90px 90px 70px; padding:8px 14px; background:#F5F5F5; border-bottom:0.5px solid #E0E0E0; gap:8px; }
+.th-cell { font-size:10px; font-weight:600; color:#757575; text-transform:uppercase; letter-spacing:.06em; }
+.table-row { display:grid; grid-template-columns:80px 1fr 120px 90px 90px 70px; padding:9px 14px; border-bottom:0.5px solid #F5F5F5; gap:8px; align-items:center; }
+.table-row:hover { background:#F9FBF7; }
+.td-cell { font-size:11px; color:#1C1C1C; }
+.td-muted { color:#757575; }
+.status-pill { padding:3px 8px; border-radius:999px; font-size:10px; font-weight:600; white-space:nowrap; display:inline-block; }
+.s-recebida { background:#E3F2FD; color:#0D47A1; }
+.s-analise { background:#FFF8E1; color:#F57F17; }
+.s-enviada { background:#F3E5F5; color:#6A1B9A; }
+.s-resolvida { background:#E8F5E9; color:#1B5E20; }
+.s-descartada { background:#FFEBEE; color:#B71C1C; }
+.type-tag { display:inline-flex; align-items:center; gap:4px; font-size:11px; }
+</style>
+
+<div style="font-family:'DM Sans',sans-serif; padding:.5rem 0;">
+
+  <!-- TELA 5: DASHBOARD -->
+  <div class="block-title">Tela 5 — Dashboard Administrativo (Desktop)</div>
+  <div class="screen" style="margin:0 0 24px;">
+    <div class="admin-layout" style="min-height:440px;">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="sb-brand">
+          <div class="sb-logo">🌿 EcoAlert</div>
+          <div class="sb-role">Painel Admin</div>
+        </div>
+        <div class="sb-nav">
+          <div class="sb-item active"><i class="ti ti-layout-dashboard" aria-hidden="true"></i> Dashboard</div>
+          <div class="sb-item"><i class="ti ti-file-text" aria-hidden="true"></i> Denúncias</div>
+          <div class="sb-item"><i class="ti ti-map-pin" aria-hidden="true"></i> Mapa</div>
+          <div class="sb-item"><i class="ti ti-chart-bar" aria-hidden="true"></i> Relatórios</div>
+          <div class="sb-item" style="margin-top:auto;"><i class="ti ti-settings" aria-hidden="true"></i> Configurações</div>
+          <div class="sb-item" style="color:#F28B82;"><i class="ti ti-logout" aria-hidden="true"></i> Sair</div>
+        </div>
+      </div>
+      <!-- Main -->
+      <div class="admin-main">
+        <div class="admin-topbar">
+          <div class="page-title">Dashboard</div>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="font-size:11px; color:#757575;">14/05/2026</div>
+            <div style="width:28px; height:28px; border-radius:50%; background:#E8F5E9; display:flex; align-items:center; justify-content:center; font-size:14px;">👤</div>
+          </div>
+        </div>
+        <div class="admin-body">
+          <!-- Métricas -->
+          <div class="metrics">
+            <div class="metric">
+              <div class="metric-num">1.240</div>
+              <div class="metric-label">Total de Denúncias</div>
+              <div class="metric-delta" style="color:#2E7D32;">↑ +18 esta semana</div>
+            </div>
+            <div class="metric">
+              <div class="metric-num" style="color:#F57F17;">42</div>
+              <div class="metric-label">Em análise</div>
+              <div class="metric-delta" style="color:#F57F17;">Aguardam resposta</div>
+            </div>
+            <div class="metric">
+              <div class="metric-num" style="color:#C62828;">7</div>
+              <div class="metric-label">Críticas / Urgentes</div>
+              <div class="metric-delta" style="color:#C62828;">↑ 2 novas hoje</div>
+            </div>
+            <div class="metric">
+              <div class="metric-num">87%</div>
+              <div class="metric-label">Taxa de resolução</div>
+              <div class="metric-delta" style="color:#2E7D32;">↑ +3% vs mês ant.</div>
+            </div>
+          </div>
+          <!-- Gráficos -->
+          <div class="charts-row">
+            <div class="chart-card">
+              <div class="chart-title">Denúncias por dia (últimos 7 dias)</div>
+              <div class="bar-chart">
+                <div class="bar-wrap"><div class="bar" style="height:40px; background:#81C784;"></div><div class="bar-lbl">S</div></div>
+                <div class="bar-wrap"><div class="bar" style="height:60px; background:#43A047;"></div><div class="bar-lbl">T</div></div>
+                <div class="bar-wrap"><div class="bar" style="height:45px; background:#81C784;"></div><div class="bar-lbl">Q</div></div>
+                <div class="bar-wrap"><div class="bar" style="height:75px; background:#2E7D32;"></div><div class="bar-lbl">Q</div></div>
+                <div class="bar-wrap"><div class="bar" style="height:50px; background:#81C784;"></div><div class="bar-lbl">S</div></div>
+                <div class="bar-wrap"><div class="bar" style="height:30px; background:#C8E6C9;"></div><div class="bar-lbl">S</div></div>
+                <div class="bar-wrap"><div class="bar" style="height:20px; background:#C8E6C9;"></div><div class="bar-lbl">D</div></div>
+              </div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-title">Por categoria</div>
+              <div class="donut-area">
+                <div class="donut-visual"><div class="donut-inner"></div></div>
+                <div class="donut-legend">
+                  <div class="dl-item"><div class="dl-dot" style="background:#2E7D32;"></div>Desmatamento — 45%</div>
+                  <div class="dl-item"><div class="dl-dot" style="background:#1565C0;"></div>Resíduos — 27%</div>
+                  <div class="dl-item"><div class="dl-dot" style="background:#F9A825;"></div>Incêndio — 16%</div>
+                  <div class="dl-item"><div class="dl-dot" style="background:#C62828;"></div>Outros — 12%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Tabela -->
+          <div class="table-wrap">
+            <div class="table-head">
+              <div class="th-cell">Protocolo</div>
+              <div class="th-cell">Tipo / Endereço</div>
+              <div class="th-cell">Data</div>
+              <div class="th-cell">Status</div>
+              <div class="th-cell">Prioridade</div>
+              <div class="th-cell">Ações</div>
+            </div>
+            <div class="table-row">
+              <div class="td-cell" style="font-weight:600; color:#1B5E20;">DEN-2026-1847</div>
+              <div class="td-cell"><div class="type-tag">🔥 Incêndio</div><div class="td-muted" style="font-size:10px; margin-top:2px;">R. das Palmeiras, 420 — Goiânia</div></div>
+              <div class="td-cell td-muted">14/05/2026 14:32</div>
+              <div class="td-cell"><span class="status-pill s-recebida">Recebida</span></div>
+              <div class="td-cell"><span style="color:#C62828; font-size:11px; font-weight:600;">🔴 Alta</span></div>
+              <div class="td-cell"><span style="color:#1565C0; cursor:pointer; font-size:11px;">Ver →</span></div>
+            </div>
+            <div class="table-row">
+              <div class="td-cell" style="font-weight:600; color:#1B5E20;">DEN-2026-1846</div>
+              <div class="td-cell"><div class="type-tag">🌳 Desmatamento</div><div class="td-muted" style="font-size:10px; margin-top:2px;">Est. Boiadeira, km 12 — Aparecida</div></div>
+              <div class="td-cell td-muted">14/05/2026 11:20</div>
+              <div class="td-cell"><span class="status-pill s-analise">Em Análise</span></div>
+              <div class="td-cell"><span style="color:#F57F17; font-size:11px; font-weight:600;">🟡 Média</span></div>
+              <div class="td-cell"><span style="color:#1565C0; cursor:pointer; font-size:11px;">Ver →</span></div>
+            </div>
+            <div class="table-row">
+              <div class="td-cell" style="font-weight:600; color:#1B5E20;">DEN-2026-1845</div>
+              <div class="td-cell"><div class="type-tag">🗑️ Resíduos</div><div class="td-muted" style="font-size:10px; margin-top:2px;">R. Maranhão, 85 — Goiânia</div></div>
+              <div class="td-cell td-muted">13/05/2026 16:05</div>
+              <div class="td-cell"><span class="status-pill s-enviada">Fiscal Enviado</span></div>
+              <div class="td-cell"><span style="color:#4A4A4A; font-size:11px; font-weight:600;">⚪ Baixa</span></div>
+              <div class="td-cell"><span style="color:#1565C0; cursor:pointer; font-size:11px;">Ver →</span></div>
+            </div>
+            <div class="table-row">
+              <div class="td-cell" style="font-weight:600; color:#1B5E20;">DEN-2026-1844</div>
+              <div class="td-cell"><div class="type-tag">🌳 Desmatamento</div><div class="td-muted" style="font-size:10px; margin-top:2px;">Anel Viário, trecho 3 — Goiânia</div></div>
+              <div class="td-cell td-muted">13/05/2026 09:41</div>
+              <div class="td-cell"><span class="status-pill s-resolvida">Resolvida</span></div>
+              <div class="td-cell"><span style="color:#4A4A4A; font-size:11px; font-weight:600;">⚪ Baixa</span></div>
+              <div class="td-cell"><span style="color:#1565C0; cursor:pointer; font-size:11px;">Ver →</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TELA 6: DETALHE DA DENÚNCIA -->
+  <div class="block-title">Tela 6 — Detalhes da Denúncia (Visão Admin)</div>
+  <div class="screen">
+    <div class="admin-layout" style="min-height:380px;">
+      <!-- Sidebar (collapsed labels) -->
+      <div class="sidebar">
+        <div class="sb-brand">
+          <div class="sb-logo">🌿 EcoAlert</div>
+          <div class="sb-role">Painel Admin</div>
+        </div>
+        <div class="sb-nav">
+          <div class="sb-item"><i class="ti ti-layout-dashboard" aria-hidden="true"></i> Dashboard</div>
+          <div class="sb-item active"><i class="ti ti-file-text" aria-hidden="true"></i> Denúncias</div>
+          <div class="sb-item"><i class="ti ti-map-pin" aria-hidden="true"></i> Mapa</div>
+          <div class="sb-item"><i class="ti ti-chart-bar" aria-hidden="true"></i> Relatórios</div>
+        </div>
+      </div>
+      <!-- Main Detail -->
+      <div class="admin-main">
+        <div class="admin-topbar">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span style="font-size:12px; color:#2E7D32; cursor:pointer;">← Voltar</span>
+            <div class="page-title">DEN-2026-1847</div>
+            <span class="status-pill s-recebida">Recebida</span>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <div style="background:#FFEBEE; color:#C62828; border:0.5px solid #FFCDD2; padding:7px 12px; border-radius:8px; font-size:11px; font-weight:600; cursor:pointer;"><i class="ti ti-trash" aria-hidden="true"></i> Excluir</div>
+            <div style="background:#2E7D32; color:#fff; padding:7px 14px; border-radius:8px; font-size:11px; font-weight:700; cursor:pointer;">Atualizar Status</div>
+          </div>
+        </div>
+        <div style="padding:16px 20px; display:grid; grid-template-columns:1.4fr .6fr; gap:16px;">
+          <!-- Left: Info -->
+          <div>
+            <div style="background:#fff; border:0.5px solid #E0E0E0; border-radius:10px; padding:16px; margin:0 0 12px;">
+              <div style="font-size:12px; font-weight:600; color:#1C1C1C; margin:0 0 12px; display:flex; align-items:center; gap:8px;"><span style="font-size:16px;">🔥</span> Foco de Incêndio <span style="background:#FFEBEE; color:#C62828; padding:2px 8px; border-radius:999px; font-size:10px; margin-left:4px;">🔴 Alta prioridade</span></div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:12px; margin:0 0 12px;">
+                <div><div style="color:#9E9E9E; margin:0 0 2px;">Data/Hora</div><div style="color:#1C1C1C;">14/05/2026 às 14:32</div></div>
+                <div><div style="color:#9E9E9E; margin:0 0 2px;">Anonimato</div><div style="color:#F57F17;">✓ Denúncia anônima</div></div>
+                <div><div style="color:#9E9E9E; margin:0 0 2px;">Localização</div><div style="color:#1565C0; cursor:pointer;">📍 Rua das Palmeiras, 420 ↗</div></div>
+                <div><div style="color:#9E9E9E; margin:0 0 2px;">Coordenadas</div><div style="color:#1C1C1C; font-size:11px;">-16.6864, -49.2643</div></div>
+              </div>
+              <div>
+                <div style="font-size:12px; font-weight:600; color:#4A4A4A; margin:0 0 6px;">Relato do denunciante</div>
+                <div style="background:#F5F5F5; border-radius:8px; padding:12px; font-size:12px; color:#1C1C1C; line-height:1.65; border-left:3px solid #C8E6C9;">"Avistei fumaça intensa saindo de um terreno baldio na Rua das Palmeiras. O foco parece se alastrar em direção às casas vizinhas. O vento está intenso. Ninguém parece estar tomando providências."</div>
+              </div>
+            </div>
+            <!-- Anexo -->
+            <div style="background:#fff; border:0.5px solid #E0E0E0; border-radius:10px; padding:14px;">
+              <div style="font-size:12px; font-weight:600; color:#1C1C1C; margin:0 0 10px;">Evidências Anexadas</div>
+              <div style="display:flex; gap:8px;">
+                <div style="width:72px; height:56px; background:#FFF3E0; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:22px; cursor:pointer; border:0.5px solid #FFB74D; position:relative;">🔥<div style="position:absolute; bottom:2px; right:2px; font-size:9px; background:rgba(0,0,0,.4); color:#fff; padding:1px 4px; border-radius:3px;">JPG</div></div>
+                <div style="width:72px; height:56px; background:#E8F5E9; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:22px; cursor:pointer; border:0.5px solid #A5D6A7; position:relative;">🌿<div style="position:absolute; bottom:2px; right:2px; font-size:9px; background:rgba(0,0,0,.4); color:#fff; padding:1px 4px; border-radius:3px;">PNG</div></div>
+                <div style="display:flex; align-items:center; gap:6px; padding:0 10px; font-size:11px; color:#1565C0; cursor:pointer; border:0.5px solid #E3F2FD; border-radius:6px; background:#E3F2FD;"><i class="ti ti-download" aria-hidden="true"></i> Baixar tudo</div>
+              </div>
+            </div>
+          </div>
+          <!-- Right: Status & Actions -->
+          <div>
+            <div style="background:#fff; border:0.5px solid #E0E0E0; border-radius:10px; padding:14px; margin:0 0 12px;">
+              <div style="font-size:12px; font-weight:600; color:#1C1C1C; margin:0 0 12px;">Atualizar Status</div>
+              <div style="display:flex; flex-direction:column; gap:6px;">
+                <div style="padding:8px 12px; border-radius:8px; font-size:12px; display:flex; align-items:center; gap:8px; cursor:pointer; background:#E3F2FD; border:1.5px solid #90CAF9; color:#0D47A1;"><div style="width:8px; height:8px; border-radius:50%; background:#0D47A1; flex-shrink:0;"></div>Recebida <span style="margin-left:auto; font-size:10px;">atual</span></div>
+                <div style="padding:8px 12px; border-radius:8px; font-size:12px; display:flex; align-items:center; gap:8px; cursor:pointer; border:0.5px solid #E0E0E0; color:#4A4A4A;"><div style="width:8px; height:8px; border-radius:50%; background:#F9A825; flex-shrink:0;"></div>Em Análise</div>
+                <div style="padding:8px 12px; border-radius:8px; font-size:12px; display:flex; align-items:center; gap:8px; cursor:pointer; border:0.5px solid #E0E0E0; color:#4A4A4A;"><div style="width:8px; height:8px; border-radius:50%; background:#9C27B0; flex-shrink:0;"></div>Fiscal Enviado</div>
+                <div style="padding:8px 12px; border-radius:8px; font-size:12px; display:flex; align-items:center; gap:8px; cursor:pointer; border:0.5px solid #E0E0E0; color:#4A4A4A;"><div style="width:8px; height:8px; border-radius:50%; background:#2E7D32; flex-shrink:0;"></div>Resolvida</div>
+                <div style="padding:8px 12px; border-radius:8px; font-size:12px; display:flex; align-items:center; gap:8px; cursor:pointer; border:0.5px solid #E0E0E0; color:#C62828;"><div style="width:8px; height:8px; border-radius:50%; background:#C62828; flex-shrink:0;"></div>Descartada</div>
+              </div>
+              <div style="background:#2E7D32; color:#fff; padding:10px; border-radius:8px; font-size:12px; font-weight:700; text-align:center; margin-top:12px; cursor:pointer;">Salvar Alteração</div>
+            </div>
+            <!-- Ver no Maps -->
+            <div style="background:#E3F2FD; border:0.5px solid #90CAF9; border-radius:10px; padding:12px; text-align:center; cursor:pointer;">
+              <div style="font-size:18px; margin:0 0 4px;">🗺️</div>
+              <div style="font-size:12px; font-weight:600; color:#0D47A1;">Abrir no Google Maps</div>
+              <div style="font-size:10px; color:#1565C0; margin-top:2px;">Ver localização exata da ocorrência</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Annotations -->
+  <div style="margin-top:16px; display:grid; grid-template-columns:repeat(4,1fr); gap:10px; font-size:11px; color:var(--color-text-secondary);">
+    <div style="background:var(--color-background-secondary); border-radius:8px; padding:10px;">
+      <div style="font-weight:500; color:var(--color-text-primary); margin:0 0 3px;">🗂️ Sidebar admin</div>
+      Fundo verde-escuro (#1B5E20). Item ativo com fundo claro translúcido + borda direita verde-claro. Ícones Tabler outline.
+    </div>
+    <div style="background:var(--color-background-secondary); border-radius:8px; padding:10px;">
+      <div style="font-weight:500; color:var(--color-text-primary); margin:0 0 3px;">📊 Métricas + gráficos</div>
+      4 cards de destaque no topo. Gráfico de barras SVG nativo + donut CSS para distribuição por categoria.
+    </div>
+    <div style="background:var(--color-background-secondary); border-radius:8px; padding:10px;">
+      <div style="font-weight:500; color:var(--color-text-primary); margin:0 0 3px;">📋 Tabela de denúncias</div>
+      6 colunas: Protocolo, Tipo/Endereço, Data, Status (pill), Prioridade, Ações. Hover com fundo verde-suave.
+    </div>
+    <div style="background:var(--color-background-secondary); border-radius:8px; padding:10px;">
+      <div style="font-weight:500; color:var(--color-text-primary); margin:0 0 3px;">🔄 Status picker</div>
+      Lista de radio-style cards para troca de status. Estado atual destacado em azul. Confirmar com botão verde.
+    </div>
+  </div>
+</div>

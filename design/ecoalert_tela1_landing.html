@@ -1,0 +1,184 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap');
+.mock-wrap { display: flex; gap: 20px; align-items: flex-start; }
+.mock-label { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 0 0 8px; }
+.screen { background: #F4F1EA; border: 0.5px solid var(--color-border-secondary); border-radius: 12px; overflow: hidden; }
+.nav-bar { background: #FFFFFF; padding: 0 32px; height: 60px; display: flex; align-items: center; justify-content: space-between; border-bottom: 0.5px solid #E0E0E0; }
+.nav-logo { font-family:'DM Serif Display',serif; font-size:18px; color:#1B5E20; }
+.nav-links { display:flex; gap:24px; }
+.nav-link { font-size:13px; color:#4A4A4A; }
+.nav-cta { background:#2E7D32; color:#fff; padding:8px 18px; border-radius:8px; font-size:12px; font-weight:600; }
+.hero { background: linear-gradient(160deg,#1B5E20 0%,#2E7D32 55%,#388E3C 100%); padding: 52px 40px 44px; color:#fff; }
+.hero-eyebrow { font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:#A5D6A7; margin:0 0 12px; }
+.hero-h1 { font-family:'DM Serif Display',serif; font-size:34px; line-height:1.15; margin:0 0 14px; }
+.hero-sub { font-size:14px; color:#C8E6C9; line-height:1.65; margin:0 0 24px; max-width:340px; }
+.btn-primary { background:#FFFFFF; color:#1B5E20; padding:12px 22px; border-radius:8px; font-size:13px; font-weight:700; display:inline-block; }
+.btn-ghost { border:1.5px solid rgba(255,255,255,.45); color:#fff; padding:11px 18px; border-radius:8px; font-size:13px; margin-left:10px; display:inline-block; }
+.hero-badge { background:rgba(255,255,255,.12); border:0.5px solid rgba(255,255,255,.25); border-radius:8px; padding:10px 14px; margin-top:20px; font-size:12px; color:#E8F5E9; display:inline-flex; align-items:center; gap:8px; }
+.section-pad { padding: 28px 32px; }
+.section-title { font-family:'DM Serif Display',serif; font-size:22px; color:#1C1C1C; margin:0 0 6px; }
+.section-sub { font-size:13px; color:#4A4A4A; margin:0 0 20px; line-height:1.6; }
+.cards-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+.feature-card { background:#FFFFFF; border:0.5px solid #E0E0E0; border-radius:12px; padding:16px; }
+.fc-icon { width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; margin:0 0 10px; font-size:18px; }
+.fc-title { font-size:13px; font-weight:600; color:#1C1C1C; margin:0 0 4px; }
+.fc-desc { font-size:11px; color:#757575; line-height:1.55; }
+.stat-row { display:flex; gap:12px; }
+.stat { background:#FFFFFF; border-radius:10px; padding:14px 16px; flex:1; border:0.5px solid #E0E0E0; }
+.stat-num { font-family:'DM Serif Display',serif; font-size:26px; color:#2E7D32; }
+.stat-desc { font-size:11px; color:#757575; margin-top:2px; }
+.steps { display:flex; flex-direction:column; gap:10px; }
+.step { display:flex; align-items:flex-start; gap:12px; background:#fff; border-radius:10px; padding:12px; border:0.5px solid #E0E0E0; }
+.step-n { width:26px; height:26px; border-radius:50%; background:#2E7D32; color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.step-t { font-size:12px; font-weight:600; color:#1C1C1C; }
+.step-d { font-size:11px; color:#757575; }
+/* Mobile */
+.m-nav { background:#FFFFFF; padding:0 16px; height:52px; display:flex; align-items:center; justify-content:space-between; border-bottom:0.5px solid #E0E0E0; }
+.m-logo { font-family:'DM Serif Display',serif; font-size:15px; color:#1B5E20; }
+.m-hero { background:linear-gradient(160deg,#1B5E20,#2E7D32 60%,#388E3C); padding:32px 20px 28px; color:#fff; }
+.m-eyebrow { font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:#A5D6A7; margin:0 0 8px; }
+.m-h1 { font-family:'DM Serif Display',serif; font-size:24px; line-height:1.2; margin:0 0 10px; }
+.m-sub { font-size:12px; color:#C8E6C9; line-height:1.6; margin:0 0 18px; }
+.m-btn { background:#FFFFFF; color:#1B5E20; padding:11px 0; border-radius:8px; font-size:13px; font-weight:700; text-align:center; display:block; }
+.m-btn2 { border:1.5px solid rgba(255,255,255,.4); color:#fff; padding:10px 0; border-radius:8px; font-size:12px; text-align:center; display:block; margin-top:8px; }
+.m-section { padding:20px 16px; }
+.m-cards { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.m-stat-row { display:flex; gap:10px; }
+</style>
+
+<div style="font-family:'DM Sans',sans-serif; padding:.5rem 0;">
+  <div style="font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--color-text-tertiary); margin:0 0 16px;">Tela 1 — Landing Page / Tela Inicial</div>
+
+  <div class="mock-wrap">
+
+    <!-- DESKTOP -->
+    <div style="flex:1.6; min-width:0;">
+      <div class="mock-label">Desktop · 1440px</div>
+      <div class="screen">
+        <!-- Nav -->
+        <div class="nav-bar">
+          <div class="nav-logo">🌿 EcoAlert</div>
+          <div class="nav-links">
+            <span class="nav-link">Como funciona</span>
+            <span class="nav-link">Consultar protocolo</span>
+            <span class="nav-link">Mapa de ocorrências</span>
+          </div>
+          <div class="nav-cta">FAZER DENÚNCIA</div>
+        </div>
+        <!-- Hero -->
+        <div class="hero">
+          <div class="hero-eyebrow">🌍 Plataforma cidadã ambiental</div>
+          <div class="hero-h1">Registre. Acompanhe.<br>Proteja o meio ambiente.</div>
+          <div class="hero-sub">Denuncie focos de incêndio, desmatamento e descarte irregular de forma simples, rápida e segura. Seu relato faz diferença.</div>
+          <div>
+            <span class="btn-primary">🚨 Fazer uma Denúncia</span>
+            <span class="btn-ghost">Ver ocorrências no mapa</span>
+          </div>
+          <div class="hero-badge">🔒 Denúncia anônima disponível &nbsp;·&nbsp; Protocolo gerado automaticamente</div>
+        </div>
+        <!-- Stats -->
+        <div class="section-pad">
+          <div class="stat-row" style="margin:0 0 24px;">
+            <div class="stat"><div class="stat-num">1.240</div><div class="stat-desc">Denúncias registradas</div></div>
+            <div class="stat"><div class="stat-num">87%</div><div class="stat-desc">Taxa de resolução</div></div>
+            <div class="stat"><div class="stat-num">48h</div><div class="stat-desc">Tempo médio de resposta</div></div>
+            <div class="stat"><div class="stat-num">12</div><div class="stat-desc">Municípios atendidos</div></div>
+          </div>
+          <!-- Features -->
+          <div class="section-title">Como o EcoAlert funciona</div>
+          <div class="section-sub">Três etapas simples para registrar sua ocorrência ambiental.</div>
+          <div class="cards-row">
+            <div class="feature-card">
+              <div class="fc-icon" style="background:#E8F5E9;">📝</div>
+              <div class="fc-title">1. Registre a ocorrência</div>
+              <div class="fc-desc">Descreva o problema, informe o local (via GPS ou mapa interativo) e adicione fotos como evidência.</div>
+            </div>
+            <div class="feature-card">
+              <div class="fc-icon" style="background:#FFF3E0;">📋</div>
+              <div class="fc-title">2. Receba seu protocolo</div>
+              <div class="fc-desc">Um número de protocolo único é gerado imediatamente para você acompanhar a resolução.</div>
+            </div>
+            <div class="feature-card">
+              <div class="fc-icon" style="background:#E3F2FD;">🛡️</div>
+              <div class="fc-title">3. Fiscalização age</div>
+              <div class="fc-desc">Nossa equipe analisa, envia fiscais ao local e atualiza o status em tempo real.</div>
+            </div>
+          </div>
+        </div>
+        <!-- CTA Banner -->
+        <div style="background:#1B5E20; padding:24px 32px; display:flex; align-items:center; justify-content:space-between;">
+          <div>
+            <div style="font-family:'DM Serif Display',serif; font-size:18px; color:#fff;">Viu algo irregular? Denuncie agora.</div>
+            <div style="font-size:12px; color:#A5D6A7; margin-top:4px;">Sua identidade é protegida. Leva menos de 3 minutos.</div>
+          </div>
+          <div style="background:#fff; color:#1B5E20; padding:12px 24px; border-radius:8px; font-size:13px; font-weight:700;">REGISTRAR DENÚNCIA →</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOBILE -->
+    <div style="width:220px; flex-shrink:0;">
+      <div class="mock-label">Mobile · 390px</div>
+      <div class="screen" style="width:220px;">
+        <!-- Nav -->
+        <div class="m-nav">
+          <div class="m-logo">🌿 EcoAlert</div>
+          <i class="ti ti-menu-2" style="font-size:20px; color:#1B5E20;" aria-hidden="true"></i>
+        </div>
+        <!-- Hero -->
+        <div class="m-hero">
+          <div class="m-eyebrow">🌍 Plataforma ambiental</div>
+          <div class="m-h1">Registre. Acompanhe. Proteja.</div>
+          <div class="m-sub">Denuncie ocorrências ambientais de forma simples e anônima.</div>
+          <div class="m-btn">🚨 Fazer Denúncia</div>
+          <div class="m-btn2">Ver mapa de ocorrências</div>
+        </div>
+        <!-- Stats mini -->
+        <div class="m-section">
+          <div class="m-stat-row" style="margin:0 0 16px;">
+            <div class="stat" style="padding:10px 12px;"><div class="stat-num" style="font-size:18px;">1.240</div><div class="stat-desc" style="font-size:9px;">Denúncias</div></div>
+            <div class="stat" style="padding:10px 12px;"><div class="stat-num" style="font-size:18px;">87%</div><div class="stat-desc" style="font-size:9px;">Resolvidas</div></div>
+          </div>
+          <div style="font-family:'DM Serif Display',serif; font-size:16px; color:#1C1C1C; margin:0 0 10px;">Como funciona</div>
+          <div class="steps">
+            <div class="step">
+              <div class="step-n">1</div>
+              <div><div class="step-t">Registre</div><div class="step-d">Descreva e localize a ocorrência</div></div>
+            </div>
+            <div class="step">
+              <div class="step-n">2</div>
+              <div><div class="step-t">Protocolo</div><div class="step-d">Número único para acompanhar</div></div>
+            </div>
+            <div class="step">
+              <div class="step-n">3</div>
+              <div><div class="step-t">Resolução</div><div class="step-d">Fiscais verificam e resolvem</div></div>
+            </div>
+          </div>
+        </div>
+        <!-- CTA mini -->
+        <div style="background:#1B5E20; padding:16px; text-align:center;">
+          <div style="font-size:12px; color:#A5D6A7; margin:0 0 8px;">Viu algo irregular?</div>
+          <div style="background:#fff; color:#1B5E20; padding:10px; border-radius:8px; font-size:12px; font-weight:700;">DENUNCIAR AGORA →</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Annotations -->
+  <div style="margin-top:20px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; font-size:12px; color:var(--color-text-secondary);">
+    <div style="background:var(--color-background-secondary); border-radius:8px; padding:12px;">
+      <div style="font-weight:500; color:var(--color-text-primary); margin:0 0 4px;">🖥️ Navegação Desktop</div>
+      Topbar fixo com logo à esquerda, links centrais e CTA primário à direita. Fundo branco, borda inferior sutil.
+    </div>
+    <div style="background:var(--color-background-secondary); border-radius:8px; padding:12px;">
+      <div style="font-weight:500; color:var(--color-text-primary); margin:0 0 4px;">📱 Navegação Mobile</div>
+      Topbar compacto com logo + ícone hambúrguer. Menu drawer desliza da direita ao tocar.
+    </div>
+    <div style="background:var(--color-background-secondary); border-radius:8px; padding:12px;">
+      <div style="font-weight:500; color:var(--color-text-primary); margin:0 0 4px;">🎯 Hero CTA</div>
+      Botão primário (fundo branco/texto verde) é o principal ponto focal. Botão secundário ghost para acesso ao mapa.
+    </div>
+  </div>
+</div>

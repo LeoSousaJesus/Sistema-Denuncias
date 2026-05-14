@@ -1,0 +1,271 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap');
+.mock-wrap { display:flex; gap:20px; align-items:flex-start; }
+.mock-label { font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--color-text-tertiary); margin:0 0 8px; }
+.screen { background:#F4F1EA; border:0.5px solid var(--color-border-secondary); border-radius:12px; overflow:hidden; }
+.topbar { background:#FFFFFF; padding:0 32px; height:60px; display:flex; align-items:center; justify-content:space-between; border-bottom:0.5px solid #E0E0E0; }
+.logo { font-family:'DM Serif Display',serif; font-size:18px; color:#1B5E20; }
+.breadcrumb { font-size:12px; color:#757575; }
+.breadcrumb span { color:#2E7D32; font-weight:500; }
+/* Stepper */
+.stepper { display:flex; align-items:center; padding:16px 32px; background:#fff; border-bottom:0.5px solid #E0E0E0; gap:0; }
+.step-item { display:flex; align-items:center; gap:8px; }
+.step-dot { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; }
+.step-active .step-dot { background:#2E7D32; color:#fff; }
+.step-done .step-dot { background:#E8F5E9; color:#2E7D32; border:1.5px solid #2E7D32; }
+.step-inactive .step-dot { background:#F5F5F5; color:#BDBDBD; border:0.5px solid #E0E0E0; }
+.step-name { font-size:12px; }
+.step-active .step-name { color:#1B5E20; font-weight:600; }
+.step-done .step-name { color:#2E7D32; }
+.step-inactive .step-name { color:#BDBDBD; }
+.step-line { flex:1; height:1px; background:#E0E0E0; margin:0 12px; min-width:20px; }
+/* Form */
+.form-body { display:grid; grid-template-columns:1.2fr .8fr; gap:0; }
+.form-main { padding:28px 32px; }
+.form-aside { background:#fff; padding:28px 24px; border-left:0.5px solid #E0E0E0; }
+.form-title { font-family:'DM Serif Display',serif; font-size:20px; color:#1C1C1C; margin:0 0 4px; }
+.form-sub { font-size:13px; color:#757575; margin:0 0 22px; }
+.field-group { margin:0 0 16px; }
+.field-label { font-size:12px; font-weight:600; color:#4A4A4A; margin:0 0 5px; display:block; }
+.field-req { color:#C62828; margin-left:2px; }
+.field-input { width:100%; box-sizing:border-box; background:#fff; border:0.5px solid #C8E6C9; border-radius:8px; padding:10px 12px; font-size:13px; color:#1C1C1C; font-family:'DM Sans',sans-serif; }
+.field-input:focus-within { border-color:#2E7D32; box-shadow:0 0 0 3px rgba(46,125,50,.12); }
+.field-textarea { height:80px; resize:none; }
+.field-hint { font-size:11px; color:#9E9E9E; margin-top:4px; }
+.field-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.radio-group { display:flex; flex-direction:column; gap:8px; }
+.radio-item { display:flex; align-items:center; gap:10px; background:#fff; border:0.5px solid #E0E0E0; border-radius:8px; padding:10px 14px; cursor:pointer; }
+.radio-item.selected { border-color:#2E7D32; background:#F1F8E9; }
+.radio-dot { width:16px; height:16px; border-radius:50%; border:1.5px solid #E0E0E0; flex-shrink:0; }
+.radio-item.selected .radio-dot { border-color:#2E7D32; background:#2E7D32; box-shadow:inset 0 0 0 3px #fff; }
+.radio-text { font-size:13px; color:#1C1C1C; }
+.upload-zone { border:1.5px dashed #C8E6C9; border-radius:8px; background:#F9FBF7; padding:20px; text-align:center; cursor:pointer; }
+.upload-icon { font-size:24px; margin:0 0 6px; }
+.upload-text { font-size:12px; color:#4A4A4A; font-weight:500; }
+.upload-hint { font-size:11px; color:#9E9E9E; margin-top:2px; }
+.map-preview { background:#E8F5E9; border:0.5px solid #A5D6A7; border-radius:8px; height:120px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:6px; cursor:pointer; }
+.anon-toggle { display:flex; align-items:center; gap:12px; background:#FFF8E1; border:0.5px solid #F9A825; border-radius:8px; padding:12px; }
+.toggle-pill { width:40px; height:22px; background:#F9A825; border-radius:11px; position:relative; flex-shrink:0; }
+.toggle-thumb { width:16px; height:16px; background:#fff; border-radius:50%; position:absolute; top:3px; right:3px; }
+.aside-tip { background:#F1F8E9; border:0.5px solid #C8E6C9; border-radius:8px; padding:12px; margin:0 0 16px; }
+.tip-title { font-size:12px; font-weight:600; color:#1B5E20; margin:0 0 4px; }
+.tip-text { font-size:11px; color:#4A4A4A; line-height:1.55; }
+.proto-preview { background:#FFFFFF; border:0.5px solid #E0E0E0; border-radius:8px; padding:12px; }
+.proto-label { font-size:11px; color:#757575; margin:0 0 4px; }
+.proto-num { font-family:'DM Serif Display',serif; font-size:18px; color:#2E7D32; }
+.btn-row { display:flex; gap:10px; margin-top:20px; }
+.btn-back { background:#fff; border:0.5px solid #E0E0E0; color:#4A4A4A; padding:11px 20px; border-radius:8px; font-size:13px; font-weight:500; }
+.btn-next { background:#2E7D32; color:#fff; padding:11px 24px; border-radius:8px; font-size:13px; font-weight:700; flex:1; text-align:center; }
+/* Mobile */
+.m-topbar { background:#fff; height:48px; display:flex; align-items:center; justify-content:space-between; padding:0 16px; border-bottom:0.5px solid #E0E0E0; }
+.m-stepper { display:flex; padding:12px 16px; background:#fff; border-bottom:0.5px solid #E0E0E0; gap:0; }
+.m-step-dot { width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; flex-shrink:0; }
+.m-step-line { flex:1; height:1px; background:#E0E0E0; margin:0 6px; align-self:center; }
+.m-form { padding:16px; }
+.m-field { margin:0 0 14px; }
+.m-label { font-size:11px; font-weight:600; color:#4A4A4A; margin:0 0 4px; display:block; }
+.m-input { width:100%; box-sizing:border-box; background:#fff; border:0.5px solid #C8E6C9; border-radius:8px; padding:10px 12px; font-size:12px; color:#1C1C1C; font-family:'DM Sans',sans-serif; }
+.m-textarea { height:70px; resize:none; }
+</style>
+
+<div style="font-family:'DM Sans',sans-serif; padding:.5rem 0;">
+  <div style="font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--color-text-tertiary); margin:0 0 16px;">Tela 2 — Formulário de Denúncia (Etapa 2 de 3: Localização &amp; Detalhes)</div>
+
+  <div class="mock-wrap">
+    <!-- DESKTOP -->
+    <div style="flex:1.7; min-width:0;">
+      <div class="mock-label">Desktop · 1440px</div>
+      <div class="screen">
+        <div class="topbar">
+          <div class="logo">🌿 EcoAlert</div>
+          <div class="breadcrumb">Início <span>›</span> Nova Denúncia</div>
+        </div>
+        <!-- Stepper -->
+        <div class="stepper">
+          <div class="step-item step-done">
+            <div class="step-dot"><i class="ti ti-check" style="font-size:12px" aria-hidden="true"></i></div>
+            <div class="step-name">Tipo de Ocorrência</div>
+          </div>
+          <div class="step-line"></div>
+          <div class="step-item step-active">
+            <div class="step-dot">2</div>
+            <div class="step-name">Localização &amp; Detalhes</div>
+          </div>
+          <div class="step-line"></div>
+          <div class="step-item step-inactive">
+            <div class="step-dot">3</div>
+            <div class="step-name">Revisão &amp; Envio</div>
+          </div>
+        </div>
+        <!-- Form Body -->
+        <div class="form-body">
+          <div class="form-main">
+            <div class="form-title">Localização e Detalhes</div>
+            <div class="form-sub">Nos ajude a identificar com precisão o local da ocorrência.</div>
+
+            <!-- Categoria (já preenchido) -->
+            <div class="field-group">
+              <div style="display:flex; gap:10px; margin:0 0 16px;">
+                <div style="background:#FFF3E0; border:0.5px solid #FFB74D; border-radius:8px; padding:8px 14px; display:flex; align-items:center; gap:8px;">
+                  <span style="font-size:16px;">🔥</span>
+                  <div><div style="font-size:12px; font-weight:600; color:#BF360C;">Foco de Incêndio</div><div style="font-size:10px; color:#E64A19;">Categoria selecionada na etapa anterior</div></div>
+                  <span style="font-size:10px; color:#9E9E9E; margin-left:8px; cursor:pointer;">alterar</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Localização -->
+            <div class="field-group">
+              <label class="field-label">Localização da Ocorrência <span class="field-req">*</span></label>
+              <div class="map-preview">
+                <span style="font-size:20px;">🗺️</span>
+                <div style="font-size:12px; font-weight:600; color:#1B5E20;">Clique para abrir o mapa interativo</div>
+                <div style="font-size:10px; color:#757575;">Ou permita acesso ao GPS para localização automática</div>
+              </div>
+              <div style="display:flex; gap:8px; margin-top:8px;">
+                <div class="field-input" style="font-size:12px; color:#2E7D32; background:#F1F8E9; flex:1; padding:9px 12px; border-color:#A5D6A7;">📍 Rua das Palmeiras, 420 — Goiânia, GO</div>
+                <div style="background:#E8F5E9; border:0.5px solid #A5D6A7; border-radius:8px; padding:9px 12px; font-size:12px; color:#1B5E20; cursor:pointer; white-space:nowrap;">Usar GPS</div>
+              </div>
+            </div>
+
+            <!-- Descrição + Upload -->
+            <div class="field-row">
+              <div class="field-group">
+                <label class="field-label">Descrição da Ocorrência <span class="field-req">*</span></label>
+                <textarea class="field-input field-textarea" placeholder="Descreva o que você observou com o máximo de detalhes possível…" style="font-family:'DM Sans',sans-serif;"></textarea>
+                <div class="field-hint">Mínimo 50 caracteres. Seja específico sobre o que viu.</div>
+              </div>
+              <div class="field-group">
+                <label class="field-label">Evidências (opcional)</label>
+                <div class="upload-zone">
+                  <div class="upload-icon">📷</div>
+                  <div class="upload-text">Arraste ou clique para anexar</div>
+                  <div class="upload-hint">.jpg .png .webp · máx. 10MB</div>
+                </div>
+                <div style="display:flex; gap:8px; margin-top:8px;">
+                  <div style="width:44px; height:44px; background:#E8F5E9; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:18px;">🌿</div>
+                  <div style="width:44px; height:44px; background:#FFF3E0; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:18px;">🔥</div>
+                  <div style="width:44px; height:44px; border:1.5px dashed #E0E0E0; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:18px; color:#BDBDBD;">+</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Anonimato -->
+            <div class="anon-toggle">
+              <div class="toggle-pill"><div class="toggle-thumb"></div></div>
+              <div>
+                <div style="font-size:13px; font-weight:600; color:#F57F17;">Denúncia Anônima ativada</div>
+                <div style="font-size:11px; color:#F9A825; margin-top:2px;">Seus dados pessoais não serão vinculados a esta denúncia</div>
+              </div>
+            </div>
+
+            <!-- Botões -->
+            <div class="btn-row">
+              <div class="btn-back">← Voltar</div>
+              <div class="btn-next">Revisar e Enviar →</div>
+            </div>
+          </div>
+
+          <!-- Aside -->
+          <div class="form-aside">
+            <div class="aside-tip">
+              <div class="tip-title">💡 Dica de localização</div>
+              <div class="tip-text">Se não tiver GPS, use o mapa interativo: clique no local exato da ocorrência e o endereço será preenchido automaticamente.</div>
+            </div>
+            <div class="aside-tip" style="background:#FFF8E1; border-color:#F9CE6A;">
+              <div class="tip-title" style="color:#B45309;">🔒 Sua privacidade</div>
+              <div class="tip-text">A denúncia anônima garante que nenhum dado seu seja salvo. O protocolo é gerado sem vínculo pessoal.</div>
+            </div>
+            <div class="aside-tip" style="background:#E3F2FD; border-color:#90CAF9;">
+              <div class="tip-title" style="color:#0D47A1;">📋 Protocolo gerado</div>
+              <div class="tip-text">Após o envio, você receberá um número como:</div>
+            </div>
+            <div class="proto-preview">
+              <div class="proto-label">Protocolo de exemplo</div>
+              <div class="proto-num">DEN-2026-1847</div>
+              <div style="font-size:11px; color:#9E9E9E; margin-top:4px;">Use este código para acompanhar o andamento</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOBILE -->
+    <div style="width:210px; flex-shrink:0;">
+      <div class="mock-label">Mobile · 390px</div>
+      <div class="screen" style="width:210px;">
+        <div class="m-topbar">
+          <div style="font-family:'DM Serif Display',serif; font-size:14px; color:#1B5E20;">🌿 EcoAlert</div>
+          <div style="font-size:10px; color:#757575;">Etapa 2 de 3</div>
+        </div>
+        <!-- Stepper mini -->
+        <div style="background:#fff; padding:10px 16px; display:flex; align-items:center; border-bottom:0.5px solid #E0E0E0;">
+          <div style="width:20px; height:20px; border-radius:50%; background:#E8F5E9; border:1.5px solid #2E7D32; display:flex; align-items:center; justify-content:center; font-size:10px; color:#2E7D32; flex-shrink:0;">✓</div>
+          <div style="flex:1; height:1px; background:#2E7D32; margin:0 6px;"></div>
+          <div style="width:20px; height:20px; border-radius:50%; background:#2E7D32; display:flex; align-items:center; justify-content:center; font-size:10px; color:#fff; font-weight:700; flex-shrink:0;">2</div>
+          <div style="flex:1; height:1px; background:#E0E0E0; margin:0 6px;"></div>
+          <div style="width:20px; height:20px; border-radius:50%; background:#F5F5F5; display:flex; align-items:center; justify-content:center; font-size:10px; color:#BDBDBD; font-weight:700; flex-shrink:0;">3</div>
+        </div>
+        <!-- Form -->
+        <div class="m-form">
+          <div style="font-size:15px; font-family:'DM Serif Display',serif; color:#1C1C1C; margin:0 0 12px;">Localização &amp; Detalhes</div>
+          <!-- Localização -->
+          <div class="m-field">
+            <label class="m-label">Localização <span style="color:#C62828;">*</span></label>
+            <div style="background:#E8F5E9; border:0.5px solid #A5D6A7; border-radius:8px; padding:10px; text-align:center; margin:0 0 6px; cursor:pointer;">
+              <div style="font-size:14px; margin:0 0 2px;">🗺️</div>
+              <div style="font-size:11px; color:#1B5E20; font-weight:600;">Abrir mapa interativo</div>
+            </div>
+            <div style="background:#F1F8E9; border:0.5px solid #A5D6A7; border-radius:8px; padding:8px; font-size:11px; color:#2E7D32;">📍 Rua das Palmeiras, 420 — Goiânia</div>
+          </div>
+          <!-- Descrição -->
+          <div class="m-field">
+            <label class="m-label">Descrição <span style="color:#C62828;">*</span></label>
+            <textarea class="m-input m-textarea" placeholder="O que você observou…" style="font-family:'DM Sans',sans-serif;"></textarea>
+          </div>
+          <!-- Upload -->
+          <div class="m-field">
+            <label class="m-label">Fotos (opcional)</label>
+            <div style="border:1.5px dashed #C8E6C9; border-radius:8px; background:#F9FBF7; padding:14px; text-align:center; cursor:pointer;">
+              <div style="font-size:18px; margin:0 0 4px;">📷</div>
+              <div style="font-size:11px; color:#4A4A4A;">Toque para adicionar fotos</div>
+            </div>
+          </div>
+          <!-- Anon toggle -->
+          <div style="background:#FFF8E1; border:0.5px solid #F9A825; border-radius:8px; padding:10px; display:flex; align-items:center; gap:8px; margin:0 0 16px;">
+            <div style="width:34px; height:18px; background:#F9A825; border-radius:9px; position:relative; flex-shrink:0;">
+              <div style="width:13px; height:13px; background:#fff; border-radius:50%; position:absolute; top:2.5px; right:2.5px;"></div>
+            </div>
+            <div style="font-size:11px; color:#B45309; font-weight:600;">Denúncia Anônima</div>
+          </div>
+          <!-- Botões -->
+          <div style="display:flex; gap:8px;">
+            <div style="background:#fff; border:0.5px solid #E0E0E0; color:#4A4A4A; padding:10px; border-radius:8px; font-size:11px; text-align:center;">← Voltar</div>
+            <div style="background:#2E7D32; color:#fff; padding:10px; border-radius:8px; font-size:11px; font-weight:700; flex:1; text-align:center;">Revisar →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Annotations -->
+  <div style="margin-top:20px; display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:10px; font-size:11px; color:var(--color-text-secondary);">
+    <div style="background:var(--color-background-secondary); border-radius:8px; padding:10px;">
+      <div style="font-weight:500; color:var(--color-text-primary); margin:0 0 3px;">📍 Mapa interativo</div>
+      Preview clicável do OpenStreetMap embutido. Clique define lat/lng via Nominatim.
+    </div>
+    <div style="background:var(--color-background-secondary); border-radius:8px; padding:10px;">
+      <div style="font-weight:500; color:var(--color-text-primary); margin:0 0 3px;">🔄 Stepper de progresso</div>
+      3 etapas: Tipo → Localização → Revisão. Estados: inativo / ativo / concluído.
+    </div>
+    <div style="background:var(--color-background-secondary); border-radius:8px; padding:10px;">
+      <div style="font-weight:500; color:var(--color-text-primary); margin:0 0 3px;">🔒 Toggle anonimato</div>
+      Destaque visual âmbar quando ativado. Toggle pill com estado claro.
+    </div>
+    <div style="background:var(--color-background-secondary); border-radius:8px; padding:10px;">
+      <div style="font-weight:500; color:var(--color-text-primary); margin:0 0 3px;">📱 Mobile scroll</div>
+      Aside removido no mobile; dicas exibidas como tooltips. Layout single-column.
+    </div>
+  </div>
+</div>
