@@ -2,95 +2,79 @@
 // ==========================================
 // PÁGINA DE CONSULTA DE STATUS
 // ==========================================
-// Permite ao usuário verificar o andamento de
-// sua denúncia através do número do protocolo.
-
-// Inclusão da conexão com banco e cabeçalho visual
 include 'includes/db.php';
 include 'includes/header.php';
 ?>
 
-<div class="container" style="margin-top: 40px;">
+<div class="topbar">
+    <a href="index.php" class="logo">🌿 EcoAlert</a>
+    <a href="index.php" style="font-size:12px; color:#2E7D32; text-decoration:none;">← Voltar ao início</a>
+</div>
 
-    <h1 style="text-align: left; display: flex; align-items: center; gap: 10px;">
-        <span>🔍</span> Acompanhar Denúncia
-    </h1>
-    <p style="text-align: left;">Digite o número do protocolo gerado no momento da denúncia para verificar o status de atendimento.</p>
+<div style="max-width: 480px; margin: 60px auto; padding: 0 20px;">
+    
+    <!-- Formulário de Consulta -->
+    <div style="border:0.5px solid #C8E6C9; border-radius:12px; padding:24px; background:#F9FBF7; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+        <div style="font-size:28px; margin:0 0 8px;">🔍</div>
+        <div style="font-family:'DM Serif Display',serif; font-size:20px; color:#1C1C1C; margin:0 0 6px;">Consultar Protocolo</div>
+        <div style="font-size:13px; color:#757575; margin:0 0 20px; line-height:1.5;">Acompanhe o status da sua denúncia de forma anônima.</div>
+        
+        <form method="GET" action="status.php">
+            <div style="margin:0 0 16px;">
+                <label style="font-size:12px; font-weight:600; color:#4A4A4A; margin:0 0 6px; display:block;">Número do Protocolo</label>
+                <input type="text" name="protocolo" required value="<?= isset($_GET['protocolo']) ? htmlspecialchars($_GET['protocolo']) : '' ?>" placeholder="Ex: DEN-2026-1234" style="width:100%; box-sizing:border-box; background:#fff; border:0.5px solid #C8E6C9; border-radius:8px; padding:12px 14px; font-size:14px; color:#1C1C1C; font-family:'DM Sans',sans-serif;">
+            </div>
+            <button type="submit" style="width:100%; background:#2E7D32; border:none; color:#fff; padding:12px; border-radius:8px; font-size:13px; font-weight:700; cursor:pointer;">Consultar Status</button>
+        </form>
+    </div>
 
-    <!-- Formulário de busca via GET -->
-    <form method="GET" action="status.php" style="display: flex; gap: 10px;">
-
-        <input
-            type="text"
-            name="protocolo"
-            placeholder="Ex: DEN-2023-1234"
-            required
-            style="margin-bottom: 0; flex: 1;"
-            value="<?php echo isset($_GET['protocolo']) ? htmlspecialchars($_GET['protocolo']) : ''; ?>"
-        >
-
-        <button type="submit" class="botao" style="width: auto; margin-bottom: 0;">
-            Consultar
-        </button>
-
-    </form>
-
+    <!-- Resultado da Busca -->
     <?php
-    // Processamento da busca: se houver o parâmetro 'protocolo' na URL
     if(isset($_GET['protocolo'])){
-        // Limpa a entrada para evitar injeção SQL
         $protocolo = $conn->real_escape_string($_GET['protocolo']);
-
-        // Busca no banco o protocolo exato
         $sql = "SELECT * FROM denuncias WHERE protocolo = '$protocolo'";
         $resultado = $conn->query($sql);
 
-        // Se encontrar 1 ou mais resultados (deveria ser apenas 1 pela lógica do sistema)
         if($resultado->num_rows > 0){
-            // Extrai a linha do banco como um array associativo
             $dados = $resultado->fetch_assoc();
-
-            // Lógica de cores baseada no status
-            $statusCor = "#666";
-            if($dados['status'] == 'Recebida') $statusCor = "#F57F17";
-            if($dados['status'] == 'Em análise') $statusCor = "#0288D1";
-            if($dados['status'] == 'Fiscalização enviada') $statusCor = "#388E3C";
-            if($dados['status'] == 'Resolvida') $statusCor = "#2E7D32";
+            
+            // Lógica de classes de status compatível com a Tabela (Tela 5)
+            $statusClass = "s-recebida";
+            if($dados['status'] == 'Em Análise' || $dados['status'] == 'Em análise') $statusClass = "s-analise";
+            if(strpos(strtolower($dados['status']), 'fiscal') !== false) $statusClass = "s-enviada";
+            if($dados['status'] == 'Resolvida') $statusClass = "s-resolvida";
+            if($dados['status'] == 'Descartada') $statusClass = "s-descartada";
 
             echo "
-            <div style='margin-top: 30px;'>
-                <h2 style='font-size: 18px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;'>Resultado da Busca:</h2>
-
-                <div class='status-box'>
-                    <div style='display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;'>
-                        <div>
-                            <p style='margin: 0; font-size: 14px; color: var(--text-light); text-transform: uppercase;'>Protocolo:</p>
-                            <p style='margin: 0; font-size: 20px; font-weight: 600; color: var(--text-main);'>{$dados['protocolo']}</p>
-                        </div>
-                        <div style='text-align: right;'>
-                            <p style='margin: 0; font-size: 14px; color: var(--text-light); text-transform: uppercase;'>Status Atual:</p>
-                            <p class='status' style='margin: 0; color: $statusCor;'>{$dados['status']}</p>
-                        </div>
+            <div style='margin-top: 24px; background:#fff; border:0.5px solid #E0E0E0; border-radius:12px; padding:20px;'>
+                <div style='font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:#757575; margin:0 0 12px;'>Resultado da Busca</div>
+                
+                <div style='display:flex; justify-content:space-between; align-items:center; padding-bottom:16px; border-bottom:0.5px solid #F5F5F5; margin-bottom:16px;'>
+                    <div>
+                        <div style='font-size:11px; color:#9E9E9E; margin:0 0 2px;'>Protocolo</div>
+                        <div style='font-family:\"DM Serif Display\",serif; font-size:20px; color:#1B5E20;'>{$dados['protocolo']}</div>
                     </div>
-
-                    <div style='background: var(--white); padding: 15px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);'>
-                        <p style='margin: 0 0 5px 0; font-size: 14px; color: var(--text-light); font-weight: 600;'>Local registrado:</p>
-                        <p style='margin: 0 0 15px 0; font-size: 15px; line-height: 1.5; color: var(--primary-color);'>
-                            " . (!empty($dados['endereco']) ? htmlspecialchars($dados['endereco']) : 'Endereço não disponível (Apenas coordenadas)') . "
-                        </p>
-                        <p style='margin: 0 0 5px 0; font-size: 14px; color: var(--text-light); font-weight: 600;'>Descrição registrada:</p>
-                        <p style='margin: 0; font-size: 15px; line-height: 1.5;'>" . nl2br(htmlspecialchars($dados['descricao'])) . "</p>
+                    <div style='text-align:right;'>
+                        <div style='font-size:11px; color:#9E9E9E; margin:0 0 4px;'>Status Atual</div>
+                        <span class='status-pill {$statusClass}'>{$dados['status']}</span>
                     </div>
                 </div>
-            </div>
-            ";
 
+                <div style='margin-bottom:12px;'>
+                    <div style='font-size:11px; font-weight:600; color:#4A4A4A; margin:0 0 4px;'>Localização</div>
+                    <div style='font-size:13px; color:#1565C0; background:#E3F2FD; padding:8px 12px; border-radius:8px;'>📍 " . (!empty($dados['endereco']) ? htmlspecialchars($dados['endereco']) : 'Localização via coordenadas') . "</div>
+                </div>
+
+                <div>
+                    <div style='font-size:11px; font-weight:600; color:#4A4A4A; margin:0 0 4px;'>Categoria Registrada</div>
+                    <div style='font-size:13px; color:#1C1C1C; background:#F5F5F5; padding:8px 12px; border-radius:8px;'>{$dados['categoria']}</div>
+                </div>
+            </div>";
         } else {
-            // Caso não encontre nenhum registro com o protocolo informado
             echo "
-            <div style='margin-top: 30px; background: #FFEBEE; color: #C62828; padding: 20px; border-radius: var(--radius); text-align: center;'>
-                <h3 style='margin-bottom: 5px;'>Protocolo não encontrado</h3>
-                <p style='margin: 0;'>Verifique se você digitou o número corretamente e tente de novo.</p>
+            <div style='margin-top: 24px; background:#FFEBEE; border:0.5px solid #FFCDD2; color:#C62828; padding:16px; border-radius:12px; text-align:center;'>
+                <div style='font-weight:600; font-size:14px; margin-bottom:4px;'>Protocolo não encontrado</div>
+                <div style='font-size:12px;'>Verifique se digitou corretamente.</div>
             </div>";
         }
     }

@@ -2,66 +2,70 @@
 // ==========================================
 // PÁGINA DO MAPA INTERATIVO
 // ==========================================
-// Exibe um mapa público utilizando a biblioteca Leaflet,
-// marcando as localizações das denúncias que possuem
-// latitude e longitude salvas.
-
 include 'includes/db.php';
 include 'includes/header.php';
 
-// Busca todas as denúncias no banco
 $sql = "SELECT * FROM denuncias";
 $resultado = $conn->query($sql);
 ?>
 
-<div class="container" style="max-width: 1000px; margin-top: 40px;">
-
-    <h1 style="text-align: left; display: flex; align-items: center; gap: 10px;">
-        <span>🗺️</span> Mapa de Ocorrências
-    </h1>
-    <p style="text-align: left;">Acompanhe visualmente onde estão concentradas as denúncias de queimadas e descarte irregular na região.</p>
-
-    <!-- Contêiner do Mapa -->
-    <div id="map" style="height: 500px; border-radius: var(--radius); margin-top: 20px; border: 1px solid var(--border-color); z-index: 1;"></div>
-
-</div>
-
-<!-- Inclusão do CSS e JS do Leaflet (Biblioteca de Mapas Open Source) -->
+<!-- Inclusão do CSS e JS do Leaflet -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
+<div class="topbar">
+    <a href="index.php" class="logo">🌿 EcoAlert</a>
+    <div class="breadcrumb">Início <span>›</span> Mapa Público</div>
+</div>
+
+<div style="max-width: 1000px; margin: 40px auto; padding: 0 20px;">
+    
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+        <span style="font-size:28px;">🗺️</span>
+        <div style="font-family:'DM Serif Display',serif; font-size:24px; color:#1C1C1C;">Mapa de Ocorrências</div>
+    </div>
+    <p style="font-size:14px; color:#757575; line-height:1.6; margin-bottom:24px;">Acompanhe visualmente onde estão concentradas as denúncias de queimadas, desmatamento e descarte irregular na região.</p>
+
+    <!-- Contêiner do Mapa -->
+    <div id="map" style="height: 500px; border-radius: 12px; border: 0.5px solid #E0E0E0; z-index: 1; box-shadow: 0 4px 12px rgba(0,0,0,0.05);"></div>
+
+</div>
+
 <script>
 // Inicializa o mapa focado nas coordenadas padrão (Ex: Brasília/DF)
-// Você pode ajustar as coordenadas centrais [-15.646, -47.789] conforme a cidade alvo
 var map = L.map('map').setView([-15.646, -47.789], 12);
 
-// Adiciona a camada de mapa base (Tiles) fornecida pelo OpenStreetMap
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
 <?php
-// Loop PHP para gerar os marcadores (Pins) no mapa via JavaScript
 if ($resultado && $resultado->num_rows > 0) {
     while($dados = $resultado->fetch_assoc()){
-        
-        // Só adiciona o marcador se latitude e longitude existirem
         if(!empty($dados['latitude']) && !empty($dados['longitude'])){
             
-            // Tratamento de segurança para não quebrar o script JS com aspas soltas na descrição
             $statusSafe = htmlspecialchars($dados['status'], ENT_QUOTES);
             $protocoloSafe = htmlspecialchars($dados['protocolo'], ENT_QUOTES);
             $enderecoSafe = !empty($dados['endereco']) ? htmlspecialchars($dados['endereco'], ENT_QUOTES) : 'Endereço não registrado';
             
-            // Imprime o código JS para criar o marcador
+            $emoji = "📝";
+            if($dados['categoria'] == 'Foco de Incêndio') $emoji = "🔥";
+            if($dados['categoria'] == 'Desmatamento') $emoji = "🌳";
+            if($dados['categoria'] == 'Resíduos') $emoji = "🗑️";
+            
+            $statusColor = "#757575";
+            if(strpos(strtolower($statusSafe), 'resolvida') !== false) $statusColor = "#2E7D32";
+            if(strpos(strtolower($statusSafe), 'análise') !== false) $statusColor = "#F57F17";
+
             echo "
             L.marker([{$dados['latitude']}, {$dados['longitude']}])
              .addTo(map)
              .bindPopup(`
-                <div style='text-align:center;'>
-                    <b style='color: #2E7D32;'>{$protocoloSafe}</b><br>
-                    <span style='color: #666; font-size: 12px; display: block; margin: 5px 0;'>{$enderecoSafe}</span>
-                    <span style='color: #333; font-size: 12px; font-weight: 500;'>Status: {$statusSafe}</span>
+                <div style='text-align:left; font-family:\"DM Sans\",sans-serif; min-width:200px;'>
+                    <div style='font-size:12px; font-weight:600; color:#1B5E20; margin-bottom:4px;'>{$protocoloSafe}</div>
+                    <div style='font-size:11px; font-weight:600; margin-bottom:4px;'>{$emoji} {$dados['categoria']}</div>
+                    <div style='color:#757575; font-size:10px; margin-bottom:8px; line-height:1.4;'>{$enderecoSafe}</div>
+                    <div style='background:#F5F5F5; padding:4px 8px; border-radius:4px; font-size:10px; font-weight:600; color:{$statusColor}; display:inline-block;'>Status: {$statusSafe}</div>
                 </div>
              `);
             ";
@@ -70,32 +74,27 @@ if ($resultado && $resultado->num_rows > 0) {
 }
 ?>
 
-// Lógica para registrar um endereço pelo mapa (Click event)
-var markerTemp; // Variável para guardar o marcador temporário
+var markerTemp;
 
 map.on('click', function(e) {
     var lat = e.latlng.lat;
     var lng = e.latlng.lng;
     
-    // Se já existe um marcador temporário, remove ele
     if (markerTemp) {
         map.removeLayer(markerTemp);
     }
     
-    // Cria um novo marcador temporário onde o usuário clicou
     markerTemp = L.marker([lat, lng]).addTo(map);
     
-    // Mostra um popup perguntando se ele quer registrar aqui
     markerTemp.bindPopup(`
-        <div style='text-align:center; padding: 5px;'>
-            <p style='margin: 0 0 10px 0; font-weight: 600;'>Localização Selecionada</p>
-            <a href='denuncia.php?lat=${lat}&lng=${lng}' class='botao' style='padding: 8px 12px; font-size: 13px; margin: 0;'>
+        <div style='text-align:center; padding: 10px; font-family:\"DM Sans\",sans-serif;'>
+            <div style='font-size:12px; font-weight: 600; margin-bottom:12px; color:#1C1C1C;'>Localização Selecionada</div>
+            <a href='denuncia.php?lat=${lat}&lng=${lng}' style='background:#2E7D32; color:#fff; padding: 8px 16px; border-radius:8px; font-size: 11px; font-weight:600; text-decoration:none; display:inline-block;'>
                 Registrar Denúncia Aqui
             </a>
         </div>
     `).openPopup();
 });
-
 </script>
 
 <?php include 'includes/footer.php'; ?>

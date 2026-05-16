@@ -1,29 +1,16 @@
 <?php
-// ==========================================
-// PÁGINA DE LOGIN ADMINISTRATIVO
-// ==========================================
-// Responsável por autenticar servidores e
-// liberar o acesso ao painel de gestão.
-
-// Inicia a sessão para controle de acesso
 session_start();
 
-// Verifica se o formulário foi enviado via POST
 if(isset($_POST['usuario'])){
     $usuario = $_POST['usuario'];
     $senha = $_POST['senha'];
 
-    // Validação de credenciais (Simulada para fins didáticos/protótipo)
-    // Em um cenário real, deve-se consultar o banco de dados (tabela usuarios).
     if($usuario == "admin" && $senha == "Ecoalert123"){
-        // Define a variável de sessão garantindo que o admin está autenticado
         $_SESSION['admin'] = true;
-        // Redireciona para o painel principal
         header("Location: painel.php");
         exit;
     } else {
-        // Define mensagem de erro para login inválido
-        $erro = "Usuário ou senha inválidos. Tente novamente.";
+        $erro = "Credenciais inválidas. Tente novamente.";
     }
 }
 ?>
@@ -33,42 +20,46 @@ if(isset($_POST['usuario'])){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acesso Restrito - EcoAlert</title>
-    <!-- Ajusta o caminho do CSS para sair da pasta admin e entrar em assets -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body style="justify-content: center; align-items: center; background-color: var(--secondary-color);">
+<body>
 
-<div class="container" style="margin: auto;">
-    <div style="text-align: center; margin-bottom: 20px;">
-        <span style="font-size: 40px;">🌿</span>
-        <h1 style="margin-bottom: 5px;">Área Administrativa</h1>
-        <p>Acesso exclusivo para servidores da fiscalização</p>
-    </div>
+<div class="topbar">
+    <a href="../index.php" class="logo">🌿 EcoAlert</a>
+    <a href="../index.php" style="font-size:12px; color:#2E7D32; text-decoration:none;">← Voltar ao início</a>
+</div>
 
-    <!-- Formulário de Autenticação -->
-    <form method="POST">
-        <label for="usuario" style="display: block; font-weight: 500; margin-bottom: 8px; text-align: left;">Usuário</label>
-        <input type="text" name="usuario" id="usuario" placeholder="Digite seu usuário..." required>
-
-        <label for="senha" style="display: block; font-weight: 500; margin-bottom: 8px; text-align: left;">Senha</label>
-        <input type="password" name="senha" id="senha" placeholder="Sua senha de acesso..." required>
-
-        <button type="submit" class="botao">
-            Entrar no Painel
-        </button>
+<div style="max-width: 480px; margin: 60px auto; padding: 0 20px;">
+    <div style="border:0.5px solid #E0E0E0; border-radius:12px; padding:24px; background:#fff; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+        <div style="font-size:28px; margin:0 0 8px;">🛡️</div>
+        <div style="font-family:'DM Serif Display',serif; font-size:20px; color:#1C1C1C; margin:0 0 6px;">Acesso Restrito</div>
+        <div style="font-size:13px; color:#757575; margin:0 0 20px; line-height:1.5;">Área exclusiva para servidores e fiscais credenciados.</div>
         
-        <div style="text-align: center; margin-top: 15px;">
-            <a href="../index.php" style="color: var(--text-light); text-decoration: none; font-weight: 500; transition: color 0.3s;">← Voltar para o site</a>
-        </div>
-    </form>
-
-    <?php
-    // Se a variável $erro estiver definida, exibe o alerta visual
-    if(isset($erro)){
-        echo "<div style='background: #FFEBEE; color: #C62828; padding: 12px; border-radius: 8px; margin-top: 15px; text-align: center; font-weight: 500;'>$erro</div>";
-    }
-    ?>
+        <form method="POST">
+            <div style="margin:0 0 12px;">
+                <label style="font-size:12px; font-weight:600; color:#4A4A4A; margin:0 0 6px; display:block;">Usuário</label>
+                <input type="text" name="usuario" required placeholder="Digite seu usuário..." style="width:100%; box-sizing:border-box; background:#F5F5F5; border:0.5px solid #E0E0E0; border-radius:8px; padding:12px 14px; font-size:14px; color:#1C1C1C; font-family:'DM Sans',sans-serif;">
+            </div>
+            <div style="margin:0 0 20px;">
+                <label style="font-size:12px; font-weight:600; color:#4A4A4A; margin:0 0 6px; display:block;">Senha</label>
+                <input type="password" name="senha" required placeholder="Sua senha..." style="width:100%; box-sizing:border-box; background:#F5F5F5; border:0.5px solid #E0E0E0; border-radius:8px; padding:12px 14px; font-size:14px; color:#1C1C1C; font-family:'DM Sans',sans-serif;">
+            </div>
+            
+            <button type="submit" style="width:100%; background:#1B5E20; border:none; color:#fff; padding:12px; border-radius:8px; font-size:13px; font-weight:700; cursor:pointer;">Entrar no Painel →</button>
+            
+            <?php if(isset($erro)): ?>
+            <div style="font-size:12px; color:#C62828; text-align:center; margin-top:12px; background:#FFEBEE; padding:8px; border-radius:6px; border:1px solid #FFCDD2;">
+                ⚠️ <?= $erro ?>
+            </div>
+            <?php endif; ?>
+        </form>
+    </div>
+    
+    <div style="margin-top:20px; padding:14px 20px; display:flex; align-items:center; gap:10px; background:#FFF8E1; border:0.5px solid #F9CE6A; border-radius:8px;">
+        <span style="font-size:16px;">🔒</span>
+        <div style="font-size:11px; color:#B45309; line-height:1.4;">Esta área é monitorada. Acessos não autorizados são registrados e sujeitos a penalidades legais.</div>
+    </div>
 </div>
 
 </body>

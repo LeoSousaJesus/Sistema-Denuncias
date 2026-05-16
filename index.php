@@ -2,46 +2,71 @@
 // ==========================================
 // PÁGINA INICIAL (HOME)
 // ==========================================
-// Esta é a porta de entrada principal do sistema.
-// Apresenta a iniciativa e oferece links diretos 
-// para as funcionalidades principais.
-
-// Inclui o cabeçalho padrão (HTML head, navegação superior, etc.)
 include 'includes/header.php';
 ?>
 
-<div class="container" style="text-align: center; margin-top: 60px; padding: 50px 30px;">
-    
-    <!-- Ícone temático -->
-    <div style="font-size: 64px; margin-bottom: 20px;">🌍</div>
-    
-    <h1>Denúncia de Queimadas e Descarte</h1>
-
-    <p style="font-size: 18px; color: var(--text-main); margin-bottom: 30px;">
-        Proteja o meio ambiente da sua cidade. <br>
-        Denuncie focos de incêndio e descarte irregular de lixo <strong>de forma 100% anônima e segura</strong>.
-    </p>
-
-    <!-- Botões de Ação Principais -->
-    <div style="display: flex; flex-direction: column; gap: 15px; max-width: 400px; margin: 0 auto;">
-        
-        <a href="denuncia.php" class="botao">
-            🚨 Fazer Nova Denúncia
-        </a>
-        
-        <a href="status.php" class="botao" style="background: var(--secondary-color); color: var(--text-main); border: 1px solid var(--border-color); box-shadow: none;">
-            🔍 Consultar Denúncia Existente
-        </a>
-
-        <a href="mapa.php" class="botao" style="background: var(--secondary-color); color: var(--text-main); border: 1px solid var(--border-color); box-shadow: none;">
-            🗺️ Ver Mapa de Ocorrências
-        </a>
-
+<!-- Nav -->
+<div class="nav-bar">
+    <a href="index.php" class="nav-logo">🌿 EcoAlert</a>
+    <div class="nav-links">
+        <a href="#como-funciona" class="nav-link">Como funciona</a>
+        <a href="status.php" class="nav-link">Consultar protocolo</a>
+        <a href="mapa.php" class="nav-link">Mapa de ocorrências</a>
     </div>
-
+    <a href="denuncia.php" class="nav-cta">FAZER DENÚNCIA</a>
 </div>
 
-<?php
-// Inclui o rodapé padrão (Fechamento de tags HTML, copyright)
-include 'includes/footer.php';
-?>
+<!-- Hero -->
+<div class="hero">
+    <div class="hero-eyebrow">🌍 Plataforma cidadã ambiental</div>
+    <div class="hero-h1">Registre. Acompanhe.<br>Proteja o meio ambiente.</div>
+    <div class="hero-sub">Denuncie focos de incêndio, desmatamento e descarte irregular de forma simples, rápida e segura. Seu relato faz diferença.</div>
+    <div>
+        <a href="denuncia.php" class="btn-primary">🚨 Fazer uma Denúncia</a>
+        <a href="mapa.php" class="btn-ghost">Ver ocorrências no mapa</a>
+    </div>
+    <div class="hero-badge">🔒 Denúncia anônima disponível &nbsp;·&nbsp; Protocolo gerado automaticamente</div>
+</div>
+
+<!-- Stats & Features -->
+<div class="section-pad">
+    <div class="stat-row" style="margin:0 0 40px;">
+        <div class="stat"><div class="stat-num">1.240</div><div class="stat-desc">Denúncias registradas</div></div>
+        <div class="stat"><div class="stat-num">87%</div><div class="stat-desc">Taxa de resolução</div></div>
+        <div class="stat"><div class="stat-num">48h</div><div class="stat-desc">Tempo médio de resposta</div></div>
+        <div class="stat"><div class="stat-num">12</div><div class="stat-desc">Municípios atendidos</div></div>
+    </div>
+    
+    <div id="como-funciona" style="padding-top: 20px;">
+        <div class="section-title">Como o EcoAlert funciona</div>
+        <div class="section-sub">Três etapas simples para registrar sua ocorrência ambiental.</div>
+        <div class="cards-row">
+            <div class="feature-card">
+                <div class="fc-icon" style="background:#E8F5E9;">📝</div>
+                <div class="fc-title">1. Registre a ocorrência</div>
+                <div class="fc-desc">Descreva o problema, informe o local (via GPS ou mapa interativo) e adicione fotos como evidência.</div>
+            </div>
+            <div class="feature-card">
+                <div class="fc-icon" style="background:#FFF3E0;">📋</div>
+                <div class="fc-title">2. Receba seu protocolo</div>
+                <div class="fc-desc">Um número de protocolo único é gerado imediatamente para você acompanhar a resolução.</div>
+            </div>
+            <div class="feature-card">
+                <div class="fc-icon" style="background:#E3F2FD;">✅</div>
+                <div class="fc-title">3. Acompanhe a solução</div>
+                <div class="fc-desc">Nossa equipe de fiscalização analisa o caso e atualiza o status em tempo real até a resolução.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Banner -->
+<div style="background:#1B5E20; padding:32px 40px; display:flex; align-items:center; justify-content:space-between; margin-bottom:0;">
+    <div>
+        <div style="font-family:'DM Serif Display',serif; font-size:24px; color:#fff; margin-bottom:6px;">Viu algo irregular? Denuncie agora.</div>
+        <div style="font-size:14px; color:#A5D6A7;">Sua identidade é protegida e leva menos de 3 minutos.</div>
+    </div>
+    <a href="sobre.php" style="background:#fff; color:#1B5E20; padding:14px 28px; border-radius:8px; font-size:14px; font-weight:700; text-decoration:none; display:inline-block;">Saiba mais sobre o projeto →</a>
+</div>
+
+<?php include 'includes/footer.php'; ?>
