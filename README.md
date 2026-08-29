@@ -1,6 +1,6 @@
-# 🌿 EcoAlert - Sistema de Denúncias Ambientais
+# Sistema de Denúncias Ambientais
 
-O **EcoAlert** é um sistema web responsivo projetado para facilitar o registro, acompanhamento e a gestão de ocorrências ambientais, como focos de incêndio, desmatamento e descarte irregular de resíduos. Desenvolvido com foco na usabilidade, o sistema oferece uma interface humanizada, limpa e altamente interativa.
+Sistema web responsivo projetado para facilitar o registro, acompanhamento e a gestão de ocorrências ambientais, como focos de incêndio, desmatamento e descarte irregular de resíduos. Desenvolvido com foco na usabilidade, o sistema oferece uma interface humanizada, limpa e altamente interativa.
 
 ---
 
